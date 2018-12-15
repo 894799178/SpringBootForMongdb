@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="js/jquery-1.8.0.min.js"></script>
+    <script>
+        let specialStr = {//特殊字符映射
+            " ":"&nbsp;",
+            "\t":"<br>",
+            "\n":"<br>",
+            "[31m":"<font color='red'>",
+            "[32m":"<font color='green'>",
+            "[33m":"<font color='orange'>",
+            "[34m":"<font color='#00008b'>",
+            "[35m":"<font color='#006400'>",
+            "[36m":"<font color='blue'>",
+            "[37m":"<font color='#663399'>",
+            "[39m":"</font>",
+        };
+
+        function formatLog(str){
+            let tempStr = str;
+            $.each(specialStr,function(index,value){
+                while (tempStr.indexOf(index) >= 0){
+                    tempStr = tempStr.replace(index, value);
+                }
+                //tempStr = tempStr.replace(new RegExp(index,"gm"),value);
+            });
+            return tempStr;
+        }
+        let ws ;
+        if(window.WebSocket){
+            ws = new WebSocket('ws://192.168.5.12:8001?t=test');
+
+            ws.onopen = function(e){
+                console.log("连接服务器成功");
+            }
+            ws.onclose = function(e){
+                console.log("服务器关闭");
+            }
+            ws.onerror = function(){
+                console.log("连接出错");
+            }
+
+            ws.onmessage = function(e){
+                //console.log(e);
+                let msg = $("#mess").val();
+                let recieveMsg = JSON.parse(e.data);
+                let logData = recieveMsg.msg;
+                console.log(logData);
+                logData = formatLog(logData);
+                let oldHtm = $("#console").html();
+                let newHtm = oldHtm+logData;
+                $("#console").html(newHtm);
+
+                // let rsMsg =msg+recieveMsg.msg;
+                // console.log(rsMsg);
+                // let maxSize = 40960;
+                // if(msg.length > maxSize){
+                //     msg = msg.substring(msg.length - maxSize,msg.length);
+                // }
+                //
+                // $("#mess").val(rsMsg);
+                //
+                // let scrollTop = $("#mess")[0].scrollHeight;
+                // $("#mess").scrollTop(scrollTop);
+            }
+        }
+
+        $(function () {
+            $("#showLog").click(function(){
+                if(!ws) return ;
+                ws.send(JSON.stringify({
+                    doIt:'showLog',
+                    msg:{logKey:'test'},
+                }));
+
+            });
+
+            $("#startServer").click(function(){
+                if(!ws) return ;
+                ws.send(JSON.stringify({
+                    doIt:'startServer',
+                    msg:{logKey:'test'},
+                }));
+
+            });
+        })
+    </script>
+</head>
+<body>
+<button id="startServer">开启服务器</button>
+<button id="showLog">显示日志</button>
+<div>
+    <code id="console" ></code>
+</div>
+    <!--<textarea id="mess" style="height: 600px;width: 1000px"></textarea>-->
+</body>
+</html>

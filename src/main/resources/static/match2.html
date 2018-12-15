@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>联赛控制</title>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/match.js"></script>
+    <script type="text/javascript">
+        $.PostJson = function(url,data,callback){
+            $.ajax({
+                type: "post",
+                dataType: 'json',
+                url: url,
+                contentType: 'application/json',
+                data: JSON.stringify(data),
+                success: callback
+            });
+        }
+        let rsText = {
+            0:'结算完毕。。。',
+            1:'报名中。。。',
+            2:'报名截止。。。',
+            3:'比赛中。。。',
+            4:'比赛关闭（等待结算）中。。。'
+        };
+        $(function(){
+            $.PostJson('appWebAdmin/test1',{type:'matchCmd',cmd:'status'},function(data){
+                let text = '----';
+                $('#status').html(rsText[data.data.status]||text);
+            });
+        });
+
+        function matchStatus(sta){
+            $.PostJson('appWebAdmin/test1',{type:'matchCmd',cmd:'ctrl',status:sta},function(data){
+                let text = '----';
+                console.log(text);
+                $('#status').html(rsText[data.data.status]||text);
+            });
+        }
+
+    </script>
+</head>
+<body>
+联赛当前状态：<span id="status"></span>
+<p>
+    <button onclick="matchStatus(1)">联赛开启报名</button>
+    <button onclick="matchStatus(2)">联赛关闭报名</button>
+    <button onclick="matchStatus(3)">联赛开启</button>
+    <button onclick="matchStatus(4)">联赛关闭</button>
+    <button onclick="matchStatus(0)">联赛结算</button>
+</p>
+
+
+</body>
+
+</html>

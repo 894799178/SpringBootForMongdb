@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>update-cfg</title>
+    <!--引入CSS-->
+    <link rel="stylesheet" type="text/css" href="compoment/webuploader/webuploader.css">
+
+    <!--引入JS-->
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="compoment/webuploader/webuploader.js"></script>
+    <script type="text/javascript" src="js/update-cfg.js"></script>
+</head>
+<body>
+更新配置文件
+
+<div id="uploader" class="wu-example">
+    <!--用来存放文件信息-->
+    <div id="thelist" class="uploader-list"></div>
+    <div class="btns">
+        <div id="picker">选择文件</div>
+        <button id="ctlBtn">开始上传</button>
+    </div>
+</div>
+<p></p>
+<div>
+    <button onclick="makeCfg()">生成并更换配置</button>
+    <button onclick="startServer()">启动服务器</button>
+    <button onclick="stopServer()">关闭服务器</button>
+    <button onclick="listServer()">服务器列表</button>
+</div>
+<p></p>
+<div >
+    <textarea id="consoleLog" style="width: 500px;height: 500px" disabled="disabled"></textarea>
+</div>
+</body>
+</html>
