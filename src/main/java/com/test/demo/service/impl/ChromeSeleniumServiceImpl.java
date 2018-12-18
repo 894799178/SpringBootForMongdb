@@ -14,7 +14,6 @@ import org.openqa.selenium.logging.LoggingPreferences;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -49,7 +48,8 @@ public class ChromeSeleniumServiceImpl implements ChromeSeleniumService {
         LogEntries logEntries =instance.manage().logs().get(LogType.BROWSER);
         List<DamageBean> damageBeanList = new ArrayList<>();
         for(LogEntry entry : logEntries) {
-            DamageBean damageBean =  stringToDamageBean(entry.getMessage(),"shcs:");
+            System.out.println(entry.getMessage());
+            DamageBean damageBean =  stringToDamageBean(entry.getMessage(),"shcs");
             if(damageBean!= null){
                 damageBeanList.add(damageBean);
             }
@@ -58,7 +58,6 @@ public class ChromeSeleniumServiceImpl implements ChromeSeleniumService {
         if(damageBeanList.size()>0){
              temp = (String) JSON.toJSONString(damageBeanList);
         }
-
         return temp;
     }
 
@@ -73,9 +72,11 @@ public class ChromeSeleniumServiceImpl implements ChromeSeleniumService {
         DamageBean damageBean = null;
         //StringBuilder sb  = new StringBuilder(string);
         if(exist> 0){
-            String substring = string.substring(exist);
-            substring = substring.substring(0,substring.length()-1).replace("\\","");
-//            System.out.println(substring);
+           int index = string.indexOf("\"");
+            //String   substring = string.substring(0,string.length()-1).replace("\\","");
+            String  substring = string.substring(index+1,string.length()-1).replace("\\","");
+           System.out.println(substring);
+            System.out.println("substring->"+substring);
             damageBean = JSON.parseObject(substring,DamageBean.class);
         }
         return damageBean;

@@ -21,7 +21,18 @@ public class DamageBean {
      * 当前血量
      */
     private String hp;
+    /**
+     * 用于筛选
+     */
+    private String flag;
 
+    public String getFlag() {
+        return flag;
+    }
+
+    public void setFlag(String flag) {
+        this.flag = flag;
+    }
 
     public String getDamageNumber() {
         return damageNumber;
@@ -47,16 +58,6 @@ public class DamageBean {
         this.beingAttackedName = beingAttackedName;
     }
 
-
-    public DamageBean() {
-    }
-
-    public DamageBean(String damageNumber, String isCrit, String beingAttackedName) {
-        this.damageNumber = damageNumber;
-        this.isCrit = isCrit;
-        this.beingAttackedName = beingAttackedName;
-    }
-
     public String getAtk() {
         return atk;
     }
@@ -73,6 +74,16 @@ public class DamageBean {
         this.hp = hp;
     }
 
+
+
+    public DamageBean() {
+    }
+
+    public DamageBean(String damageNumber, String isCrit, String beingAttackedName) {
+        this.damageNumber = damageNumber;
+        this.isCrit = isCrit;
+        this.beingAttackedName = beingAttackedName;
+    }
     @Override
     public String toString() {
         return "DamageBean{" +

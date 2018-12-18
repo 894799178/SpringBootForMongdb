@@ -34,9 +34,9 @@ public class MainControl {
     @ResponseBody
     public String getDamegeData(){
         WebDriver instance = chromeSeleniumService.getInstance();
-        String damageBean = chromeSeleniumService.getDamegeDataBeans(instance);
-        System.out.println("控制层:"+damageBean);
-        return damageBean;
+        String damageData = chromeSeleniumService.getDamegeDataBeans(instance);
+       System.out.println("控制层:"+damageData);
+        return damageData;
     }
 
 

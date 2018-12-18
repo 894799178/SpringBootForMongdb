@@ -4,7 +4,7 @@ public class StringUtils {
 
 
     /**
-     *
+     * 是否包含子串,如果存在返回首字符的位置
      * @param str
      * @param subStr
      * @return
