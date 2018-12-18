@@ -19,10 +19,13 @@
     <a >----------------己方英雄属性------------------------</a></br>
     <a id="atk"></a>
     <a id="hp"></a>
+    <button id="_btn" onclick="print()">2333</button>
     <script>
         var count = 0;
         var arrIsCrit = new Array();
         var totalDamage = 0;
+        var pointData = new Array();
+        var index = 0;
         Highcharts.setOptions({
             global: {
                 useUTC: false
@@ -52,12 +55,15 @@
                                totalDamage+= parseInt(y);
                                $("#atk").text("攻击力:"+value.atk);
                                $("#hp").text("血量:"+value.hp);
+                               pointData.push (x);
+                               pointData.push (y);
                                series.addPoint([x,y], true, true);
                                activeLastPointToolip(chart);
                            })
                             var title = {
                                 text:"总伤害:"+ totalDamage
                             };
+
                             chart.setTitle(title);
                         }, 1000);
                     }
@@ -96,7 +102,6 @@
                             y: i
                         });
                     }
-
                     return data;
                 }())
             }]
@@ -105,17 +110,19 @@
             var result  = requestFormAjax("http://localhost:8080/getDamegeData",false);
             return result;
         }
-
+        function print(){
+            requestFormAjax("http://localhost:8080/updateData",false,{datas:pointData});
+        }
         //页面加载完后,在加载js
         $(function (){
 
-
         });
-      function requestFormAjax(url,async){
+      function requestFormAjax(url,async,data){
           var result;
           $.ajax({
               url:url,
               type:"post",
+              data:data,
               async:async,
               success:function(data){
                   if( data != null && data != ""){
