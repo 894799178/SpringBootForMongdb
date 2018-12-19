@@ -6,27 +6,20 @@
     <script type="text/javascript" src="/easyUI/1.5.5.4/jquery.easyui.min.js"></script>
     <script type="text/javascript" src="/easyUI/1.5.5.4/locale/easyui-lang-zh_CN.js"></script>
     <script src="https://code.highcharts.com/highcharts.src.js"></script>
-    <script type="text/javascript" src="/easyUI/1.5.5.4/jquery.easyui.min.js"></script>
-    <script type="text/javascript" src="/easyUI/1.5.5.4/locale/easyui-lang-zh_CN.js"></script>
-    <link rel="stylesheet" type="text/css" href="/css/wu.css" />
-    <link rel="stylesheet" type="text/css" href="/css/icon.css" />
-    <link rel="stylesheet" type="text/css" href="/easyUI/1.5.5.4/themes/bootstrap/easyui.css" />
-
+	
     <title>Title</title>
 </head>
 <body>
     <div id="container" style="min-width:400px;height:400px"></div>
-    <a >----------------己方英雄属性------------------------</a></br>
     <a id="atk"></a>
     <a id="hp"></a>
-    <input type="text" id="typeId"/>
+	<input type="text" id="input_text" />
     <button id="_btn" onclick="print()">2333</button>
     <script>
         var count = 0;
         var arrIsCrit = new Array();
         var totalDamage = 0;
-        var pointData = new Array();
-        var index = 0;
+		
         Highcharts.setOptions({
             global: {
                 useUTC: false
@@ -44,29 +37,7 @@
                     load: function () {
                         var series = this.series[0],
                             chart = this;
-                        setInterval(function () {
-                           var datas  =  getData();
-                           if(datas == null || datas.length<1){
-                               return;
-                           }
-                           $.each(datas,function(index,value){
-                               var x = ++count;
-                               arrIsCrit[x] = value.isCrit
-                               var y = Math.floor(value.damageNumber);
-                               totalDamage+= parseInt(y);
-                               $("#atk").text("攻击力:"+value.atk);
-                               $("#hp").text("血量:"+value.hp);
-                               pointData.push (x);
-                               pointData.push (y);
-                               series.addPoint([x,y], true, true);
-                               activeLastPointToolip(chart);
-                           })
-                            var title = {
-                                text:"总伤害:"+ totalDamage
-                            };
-
-                            chart.setTitle(title);
-                        }, 1000);
+                        
                     }
                 }
             },
@@ -96,6 +67,7 @@
                 name: '伤害监控',
                 data: (function () {
                     // 生成随机值
+					
                     var data = [];
                     for (var i= 1;i<1000;i++){
                         data.push({
@@ -103,6 +75,7 @@
                             y: i
                         });
                     }
+				console.log(data);
                     return data;
                 }())
             }]
@@ -112,32 +85,39 @@
             return result;
         }
         function print(){
-            var arr =  new Array();
-            var typeId =  $("#typeId").val()
-            for(var i = 0;i<pointData.length;i++){
-                var obj = new Object()
-                obj.pointX = pointData[i];
-                obj.isCrit = arrIsCrit[i];
-                obj.pointY = pointData[++i];
-                obj.typeId = typeId;
-                arr.push(obj);
-            }
-
-
-            requestFormAjax("http://localhost:8080/updateData",false,JSON.stringify(arr));
+			var typeId= $("#input_text").val()
+			var item1 = chart.series[0];	
+			$.ajax({
+				url:"http://localhost:8080/getDamageDataByTypeId?typeId="+typeId,
+				async:false,
+				success:function(data){  
+					//console.log(data);
+					$.each(data,function(index,item){
+						console.log(item.pointY)
+						var x =  parseInt(item.pointX);
+						var y = parseInt(item.pointY);
+                        arrIsCrit[count++] = item.isCrit;
+						item1.addPoint([x,y], false, true);
+					})
+                   // item1.redraw();
+					//item1.reflow ();
+                    item1.addPoint([count+1,0], true, true);
+				}
+			  });  
+		
         }
         //页面加载完后,在加载js
         $(function (){
-
+				
+		
+			console.log("2333333")
         });
-      function requestFormAjax(url,async,data){
+      function requestFormAjax(url,async){
           var result;
           $.ajax({
               url:url,
               type:"post",
-              data:data,
               async:async,
-              contentType: "application/json",
               success:function(data){
                   if( data != null && data != ""){
                       result =  eval('(' + data + ')');
