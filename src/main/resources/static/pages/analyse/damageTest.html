@@ -23,6 +23,7 @@
     <button id="_btn" onclick="print()">2333</button>
     <script>
         var count = 0;
+        var objects = new Array();
         var arrIsCrit = new Array();
         var totalDamage = 0;
         var pointData = new Array();
@@ -50,21 +51,28 @@
                                return;
                            }
                            $.each(datas,function(index,value){
-                               var x = ++count;
-                               arrIsCrit[x] = value.isCrit
+                               arrIsCrit[count] = value.isCrit
+                               var x = count;
                                var y = Math.floor(value.damageNumber);
                                totalDamage+= parseInt(y);
                                $("#atk").text("攻击力:"+value.atk);
                                $("#hp").text("血量:"+value.hp);
                                pointData.push (x);
                                pointData.push (y);
-                               series.addPoint([x,y], true, true);
+                               objects.push({
+                                   isCrit:value.isCrit,
+                                   atk:value.atk,
+                                   hp:value.hp,
+                                   x:x,
+                                   y:y
+                               })
+                               series.addPoint([++count,y], true, true);
+                               ;
                                activeLastPointToolip(chart);
                            })
                             var title = {
                                 text:"总伤害:"+ totalDamage
                             };
-
                             chart.setTitle(title);
                         }, 1000);
                     }
@@ -86,7 +94,7 @@
                 formatter: function () {
                     return '<b>' + this.series.name + '</b><br/>第' +
                          this.x + '次<br/>伤害:' +
-                        this.y+"-->"+arrIsCrit[this.x] ;
+                        this.y+"-->"+objects[this.x-1].isCrit ;
                 }
             },
             legend: {
@@ -114,11 +122,15 @@
         function print(){
             var arr =  new Array();
             var typeId =  $("#typeId").val()
-            for(var i = 0;i<pointData.length;i++){
+            if(typeId.length <=0){
+                alert("请输入typeId");
+                return;
+            }
+            for(var i = 0,i1=0;i<pointData.length;i+=2,i1++){
                 var obj = new Object()
                 obj.pointX = pointData[i];
-                obj.isCrit = arrIsCrit[i];
-                obj.pointY = pointData[++i];
+                obj.isCrit = arrIsCrit[i1];
+                obj.pointY = pointData[i+1];
                 obj.typeId = typeId;
                 arr.push(obj);
             }

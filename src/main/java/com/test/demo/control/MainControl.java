@@ -38,7 +38,6 @@ public class MainControl {
     public String getDamegeData(){
         WebDriver instance = chromeSeleniumService.getInstance();
         String damageData = chromeSeleniumService.getDamegeDataBeans(instance);
-       System.out.println("控制层:"+damageData);
         return damageData;
     }
     @PostMapping(value = "/updateData")
@@ -50,18 +49,15 @@ public class MainControl {
     @RequestMapping(value="/getDamageDataByTypeId")
     @ResponseBody
     public List<DamageData> getDamageDataByTypeId(String typeId){
-        System.out.println("getDamageDataByTypeId-->"+typeId);
         List<DamageData> list =  damageService.getDamageDataByTypeId(typeId);
-
         for (DamageData dd:list) {
-            System.out.println("控制层->"+dd);
+            System.out.println(dd);
         }
         return list;
     }
 
     @RequestMapping("/damageShow")
     public String damageShow(){
-        System.out.println("进入控制层");
         return "pages/analyse/damageShow.html";
     }
 

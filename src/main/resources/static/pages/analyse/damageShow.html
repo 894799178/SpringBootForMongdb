@@ -13,13 +13,13 @@
     <div id="container" style="min-width:400px;height:400px"></div>
     <a id="atk"></a>
     <a id="hp"></a>
-	<input type="text" id="input_text" />
-    <button id="_btn" onclick="print()">2333</button>
+    typeId:<input type="text" id="input_text" />
+    <button id="_btn" onclick="print()">查询</button>
     <script>
         var count = 0;
         var arrIsCrit = new Array();
         var totalDamage = 0;
-		
+        var objects = new Array();
         Highcharts.setOptions({
             global: {
                 useUTC: false
@@ -56,7 +56,7 @@
             tooltip: {
                 formatter: function () {
                     return '<b>' + this.series.name + '</b><br/>第' +
-                         this.x + '次<br/>伤害:' +
+                        (this.x+1) + '次<br/>伤害:' +
                         this.y+"-->"+arrIsCrit[this.x] ;
                 }
             },
@@ -67,7 +67,6 @@
                 name: '伤害监控',
                 data: (function () {
                     // 生成随机值
-					
                     var data = [];
                     for (var i= 1;i<1000;i++){
                         data.push({
@@ -75,7 +74,6 @@
                             y: i
                         });
                     }
-				console.log(data);
                     return data;
                 }())
             }]
@@ -85,31 +83,43 @@
             return result;
         }
         function print(){
-			var typeId= $("#input_text").val()
-			var item1 = chart.series[0];	
+			var typeId= $("#input_text").val();
+            count=0;
+            if(typeId.length <=0){
+                alert("请输入typeId");
+                return;
+            }
+			var item1 = chart.series[0];
+            var totalDamage = 0;
+            var arr =  new Array();
 			$.ajax({
 				url:"http://localhost:8080/getDamageDataByTypeId?typeId="+typeId,
 				async:false,
 				success:function(data){  
-					//console.log(data);
 					$.each(data,function(index,item){
-						console.log(item.pointY)
+                        objects.push(item);
 						var x =  parseInt(item.pointX);
 						var y = parseInt(item.pointY);
                         arrIsCrit[count++] = item.isCrit;
-						item1.addPoint([x,y], false, true);
+                        totalDamage+=y;
+                        arr.push({
+                            x: x,
+                            y: y
+                        })
 					})
-                   // item1.redraw();
-					//item1.reflow ();
-                    item1.addPoint([count+1,0], true, true);
+                    var title = {
+                        text:"总伤害:"+ totalDamage
+                    };
+                    chart.setTitle(title);
+                    item1.update({
+                        data:arr
+                    });
 				}
 			  });  
 		
         }
         //页面加载完后,在加载js
         $(function (){
-				
-		
 			console.log("2333333")
         });
       function requestFormAjax(url,async){
