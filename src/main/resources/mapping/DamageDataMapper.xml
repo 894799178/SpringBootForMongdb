@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.test.demo.mapper.DamageDataMapper" >
+  <resultMap id="BaseResultMap" type="com.test.demo.model.DamageData" >
+    <id column="Id" property="id" jdbcType="INTEGER" />
+    <result column="type_id" property="typeId" jdbcType="VARCHAR" />
+    <result column="point_X" property="pointX" jdbcType="VARCHAR" />
+    <result column="point_Y" property="pointY" jdbcType="VARCHAR" />
+    <result column="damage_number" property="damageNumber" jdbcType="VARCHAR" />
+    <result column="is_Crit" property="isCrit" jdbcType="VARCHAR" />
+    <result column="being_Attacked_Name" property="beingAttackedName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    Id, type_id, point_X, point_Y, damage_number, is_Crit, being_Attacked_Name
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_damagedata
+    where Id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_damagedata
+    where Id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.test.demo.model.DamageData" >
+    insert into t_damagedata (Id, type_id, point_X, 
+      point_Y, damage_number, is_Crit, 
+      being_Attacked_Name)
+    values (#{id,jdbcType=INTEGER}, #{typeId,jdbcType=VARCHAR}, #{pointX,jdbcType=VARCHAR}, 
+      #{pointY,jdbcType=VARCHAR}, #{damageNumber,jdbcType=VARCHAR}, #{isCrit,jdbcType=VARCHAR}, 
+      #{beingAttackedName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.test.demo.model.DamageData" >
+    insert into t_damagedata
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        Id,
+      </if>
+      <if test="typeId != null" >
+        type_id,
+      </if>
+      <if test="pointX != null" >
+        point_X,
+      </if>
+      <if test="pointY != null" >
+        point_Y,
+      </if>
+      <if test="damageNumber != null" >
+        damage_number,
+      </if>
+      <if test="isCrit != null" >
+        is_Crit,
+      </if>
+      <if test="beingAttackedName != null" >
+        being_Attacked_Name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="typeId != null" >
+        #{typeId,jdbcType=VARCHAR},
+      </if>
+      <if test="pointX != null" >
+        #{pointX,jdbcType=VARCHAR},
+      </if>
+      <if test="pointY != null" >
+        #{pointY,jdbcType=VARCHAR},
+      </if>
+      <if test="damageNumber != null" >
+        #{damageNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="isCrit != null" >
+        #{isCrit,jdbcType=VARCHAR},
+      </if>
+      <if test="beingAttackedName != null" >
+        #{beingAttackedName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.test.demo.model.DamageData" >
+    update t_damagedata
+    <set >
+      <if test="typeId != null" >
+        type_id = #{typeId,jdbcType=VARCHAR},
+      </if>
+      <if test="pointX != null" >
+        point_X = #{pointX,jdbcType=VARCHAR},
+      </if>
+      <if test="pointY != null" >
+        point_Y = #{pointY,jdbcType=VARCHAR},
+      </if>
+      <if test="damageNumber != null" >
+        damage_number = #{damageNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="isCrit != null" >
+        is_Crit = #{isCrit,jdbcType=VARCHAR},
+      </if>
+      <if test="beingAttackedName != null" >
+        being_Attacked_Name = #{beingAttackedName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.test.demo.model.DamageData" >
+    update t_damagedata
+    set type_id = #{typeId,jdbcType=VARCHAR},
+      point_X = #{pointX,jdbcType=VARCHAR},
+      point_Y = #{pointY,jdbcType=VARCHAR},
+      damage_number = #{damageNumber,jdbcType=VARCHAR},
+      is_Crit = #{isCrit,jdbcType=VARCHAR},
+      being_Attacked_Name = #{beingAttackedName,jdbcType=VARCHAR}
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+  <insert id ="insertBatch" parameterType="java.util.List" >
+          <selectKey resultType ="java.lang.Integer" keyProperty= "id"
+               order= "AFTER">
+             SELECT LAST_INSERT_ID()
+         </selectKey >
+        insert into t_damagedata
+        (type_Id, point_x, point_y,damage_number,is_crit,being_Attacked_Name)
+        values
+         <foreach collection ="list" item="damageData" index= "index" separator =",">
+             (
+              #{damageData.typeId},
+             #{damageData.pointX},
+             #{damageData.pointY},
+             #{damageData.damageNumber},
+             #{damageData.isCrit},
+             #{damageData.beingAttackedName}
+             )
+         </foreach >
+  </insert >
+
+  <select id="selectByTypeId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_damagedata
+    where type_Id = #{typeId} order by id
+  </select>
+
+  <delete id="deleteByTypeId" parameterType="java.lang.String" >
+    delete from t_damagedata
+    where type_Id = #{typeId}
+  </delete>
+
+
+</mapper>
