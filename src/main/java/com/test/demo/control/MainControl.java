@@ -24,7 +24,7 @@ public class MainControl {
     DamageService damageService;
 
     @RequestMapping("/")
-    public String test(){
+    public String index(){
         System.out.println("进入控制层");
         WebDriver instance = chromeSeleniumService.getInstance();
         LogEntries logEntries =instance.manage().logs().get(LogType.BROWSER);
@@ -61,7 +61,10 @@ public class MainControl {
         return "pages/analyse/damageShow.html";
     }
 
-
+    @RequestMapping("/damageTest")
+    public String damageTest(){
+        return "pages/analyse/damageTest.html";
+    }
 
 
 

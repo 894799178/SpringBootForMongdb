@@ -1,8 +1,10 @@
 package com.test.demo.service;
 
-import com.test.demo.model.DamageBean;
 import org.openqa.selenium.WebDriver;
 
+/**
+ * 自动化谷歌浏览器服务层
+ */
 public interface ChromeSeleniumService {
     /**
      * 获取google浏览器的WebDriver实例

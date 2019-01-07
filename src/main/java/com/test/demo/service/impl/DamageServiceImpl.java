@@ -16,7 +16,7 @@ public class DamageServiceImpl implements DamageService {
 
     @Override
     public void batchInsert(List<DamageData> datas) {
-        //插入数据前,先把久数据删除
+        //插入数据前,先把旧数据删除
         damageDataMapper.deleteByTypeId(datas.get(0).getTypeId());
         damageDataMapper.insertBatch(datas);
     }
