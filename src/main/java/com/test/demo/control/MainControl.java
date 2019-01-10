@@ -63,6 +63,8 @@ public class MainControl {
 
     @RequestMapping("/damageTest")
     public String damageTest(){
+        WebDriver instance = chromeSeleniumService.getInstance();
+        System.out.println("title->"+instance.getTitle());
         return "pages/analyse/damageTest.html";
     }
 

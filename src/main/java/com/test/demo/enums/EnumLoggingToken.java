@@ -1,6 +1,12 @@
 package com.test.demo.enums;
 
+/**
+ * 存储标记的枚举类型
+ */
 public enum EnumLoggingToken {
+    /**
+     * 伤害测试的枚举数据.用于coocs客户端,匹配需要拦截的字符串所需要的标记.
+     */
     SHCS("伤害测试","shcs");
 
     private String key;

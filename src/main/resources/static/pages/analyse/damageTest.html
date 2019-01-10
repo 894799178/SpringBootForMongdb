@@ -35,7 +35,7 @@
         });
         function activeLastPointToolip(chart) {
             var points = chart.series[0].points;
-            chart.tooltip.refresh(points[points.length -1]);
+            chart.tooltip.refresh(points[points.length-1]);
         }
         var chart = Highcharts.chart('container', {
             chart: {
@@ -67,7 +67,6 @@
                                    y:y
                                })
                                series.addPoint([++count,y], true, true);
-                               ;
                                activeLastPointToolip(chart);
                            })
                             var title = {
@@ -92,9 +91,7 @@
             },
             tooltip: {
                 formatter: function () {
-                    return '<b>' + this.series.name + '</b><br/>第' +
-                         this.x + '次<br/>伤害:' +
-                        this.y+"-->"+objects[this.x-1].isCrit ;
+                    return '<b>' + this.series.name + '</b><br/>第'+ this.x + '次<br/>伤害:'+ this.y+"-->"+(objects.length>0?objects[this.x-1].isCrit:0);
                 }
             },
             legend: {
@@ -105,10 +102,10 @@
                 data: (function () {
                     // 生成随机值
                     var data = [];
-                    for (var i= 1;i<1000;i++){
+                    for (i = 0;i<= 999;i += 1) {
                         data.push({
-                            x: 0,
-                            y: i
+                            x:0,
+                            y: 0
                         });
                     }
                     return data;

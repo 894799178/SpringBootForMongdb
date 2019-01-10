@@ -1,4 +1,4 @@
-package com.test.demo.Utils;
+package com.test.demo.utils;
 
 public class StringUtils {
 
@@ -13,6 +13,5 @@ public class StringUtils {
         int index = str.indexOf(subStr);
         return index >0 ?index+subStr.length():index;
     }
-
-
+    private  StringUtils(){}
 }

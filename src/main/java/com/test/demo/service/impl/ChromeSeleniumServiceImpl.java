@@ -1,7 +1,6 @@
 package com.test.demo.service.impl;
 
 import com.alibaba.fastjson.JSON;
-import com.test.demo.Utils.StringUtils;
 import com.test.demo.enums.EnumLoggingToken;
 import com.test.demo.model.DamageBean;
 import com.test.demo.service.ChromeSeleniumService;
