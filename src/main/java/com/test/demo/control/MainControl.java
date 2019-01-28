@@ -9,7 +9,10 @@ import org.openqa.selenium.logging.LogEntries;
 import org.openqa.selenium.logging.LogEntry;
 import org.openqa.selenium.logging.LogType;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -35,9 +38,8 @@ public class MainControl {
     }
     @RequestMapping("/getDamegeData")
     @ResponseBody
-    public String getDamegeData(){
-        WebDriver instance = chromeSeleniumService.getInstance();
-        String damageData = chromeSeleniumService.getDamegeDataBeans(instance);
+    public String getDamageData(){
+        String damageData = chromeSeleniumService.getDamegeDataBeans();
         return damageData;
     }
     @PostMapping(value = "/updateData")
@@ -63,12 +65,20 @@ public class MainControl {
 
     @RequestMapping("/damageTest")
     public String damageTest(){
-        WebDriver instance = chromeSeleniumService.getInstance();
-        System.out.println("title->"+instance.getTitle());
         return "pages/analyse/damageTest.html";
     }
 
+    @RequestMapping("/getAutoMessage")
+    @ResponseBody
+    public String getAutoMessage(){
+        return chromeSeleniumService.getAutoMessage();
+    }
 
-
+//    @RequestMapping("/getInstance")
+//    @ResponseBody
+//    public String getInstance(){
+//        chromeSeleniumService.getInstance();
+//        return "200";
+//    }
 
 }

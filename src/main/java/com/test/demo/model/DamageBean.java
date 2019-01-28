@@ -1,6 +1,6 @@
 package com.test.demo.model;
 
-public class DamageBean {
+public class DamageBean extends BaseModel{
     /**
      * 伤害的数值
      */
@@ -21,18 +21,6 @@ public class DamageBean {
      * 当前血量
      */
     private String hp;
-    /**
-     * 用于筛选
-     */
-    private String flag;
-
-    public String getFlag() {
-        return flag;
-    }
-
-    public void setFlag(String flag) {
-        this.flag = flag;
-    }
 
     public String getDamageNumber() {
         return damageNumber;

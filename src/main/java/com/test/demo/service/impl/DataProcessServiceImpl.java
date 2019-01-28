@@ -1,10 +1,14 @@
 package com.test.demo.service.impl;
 
 import com.alibaba.fastjson.JSON;
-import com.test.demo.utils.StringUtils;
 import com.test.demo.service.DataProcessService;
+import com.test.demo.utils.StringUtils;
 import org.springframework.stereotype.Service;
 
+/**
+ * 数据处理的服务层的实现
+ * @author Tester
+ */
 @Service
 public class DataProcessServiceImpl implements DataProcessService {
     @Override

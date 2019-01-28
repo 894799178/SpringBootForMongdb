@@ -14,8 +14,13 @@ public interface ChromeSeleniumService {
 
     /**
      * 获取伤害数据.
-     * @param instance
      * @return
      */
-    String getDamegeDataBeans(WebDriver instance);
+    String getDamegeDataBeans();
+
+    /**
+     * 获取自动化消息
+     * @return
+     */
+    String getAutoMessage();
 }

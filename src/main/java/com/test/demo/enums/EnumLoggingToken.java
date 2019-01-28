@@ -7,8 +7,8 @@ public enum EnumLoggingToken {
     /**
      * 伤害测试的枚举数据.用于coocs客户端,匹配需要拦截的字符串所需要的标记.
      */
-    SHCS("伤害测试","shcs");
-
+    DAMAGE_TEST("伤害测试","shcs"),
+    AUTO_CLICK_FLAG("自动点击标记","autoClickFlag");
     private String key;
 
     private String value;
@@ -17,7 +17,6 @@ public enum EnumLoggingToken {
         this.key = key;
         this.value = value;
     }
-
     public String getKey() {
         return key;
     }

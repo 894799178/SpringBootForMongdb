@@ -1,9 +1,9 @@
 spring:
-  data:
-    mongodb:
-      host:localhost
-      port:27017
-      database:SQZZ
+#  data:
+#    mongodb:
+#      host:192.168.5.189
+#      port:27017
+#      database:SQZZ
   datasource:
     name: test
     url: jdbc:mysql://127.0.0.1:3306/test
@@ -17,4 +17,4 @@ mybatis:
   type-aliases-package: com.test.model  # 注意：对应实体类的路径
 
 
-#spring.data.mongodb.uri=mongodb://localhost:27017/SQZZ
+#spring.data.mongodb.uri=mongodb://192.168.5.189:27017/SQZZ
