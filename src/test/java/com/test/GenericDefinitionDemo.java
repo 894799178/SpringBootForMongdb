@@ -11,10 +11,13 @@ public class GenericDefinitionDemo<T> {
 
     @Test
     public void test(){
-        Integer first = 222;
-        Long second = 333L;
-        Integer result = get(first,second);
-        System.out.println(result);
-    }
 
+        System.out.println((String) this.dataSorting("23"));
+    }
+    public<T> T dataSorting(String str){
+
+        String str1 = "321";
+        return (T) str1;
+
+    }
 }
